@@ -1,13 +1,8 @@
 const form = document.querySelector('form');  //form 
 const input = document.querySelector('input');
 const todoUl = document.querySelector('ul');
-// const todolist = JSON.parse(localStorage.getItem('ul'));
-
-// if(todolist){
-//     todolist.forEach(todo=>addTodo(todo))
-
-    
-// }
+let ls = localStorage.getItem('todo');
+let todo = ls ? JSON.parse(ls) : [];
 //adding event to form
 form.addEventListener('submit', (e)=> {
     e.preventDefault();
@@ -16,7 +11,7 @@ form.addEventListener('submit', (e)=> {
 });
 
 //adding to list
-function addTodo(todo){
+function addTodo(){
 
     const  todoText = input.value;
    
@@ -30,10 +25,13 @@ function addTodo(todo){
 
         todoElement.addEventListener('click',()=> {
            todoElement.classList.toggle('completed');
-            //updateLs(); 
-
+            // updateLs(todoElement); 
+         todo.push(todoText);
+         localStorage.setItem('todo',JSON.stringify(todo));
             
         });
+        todo.push(todoText);
+        localStorage.setItem('todo',JSON.stringify(todo));
         todoElement.textContent = todoText;
         todoUl.appendChild(todoElement);
         input.value = " "; ///after adding the  task clear the input section
@@ -43,22 +41,24 @@ function addTodo(todo){
         e.preventDefault();
         todoElement.remove();
 
-      //  updateLs();  //update localstorage
+    //   updateLs(todoElement);  //update localstorage
         
         
         });
     }
 }
 
-// function updateLs(){
-//      todoElement = document.querySelectorAll('li');
-//      const todo= [];
-//      todoElement.forEach(todoel => {
-//         todo.push({
-//             text: todoel.innerText,
-//             completed : todoel.classList.contains('completed')
-//         })
-//      });
-//     localStorage.setItem('todos',JSON.stringify(todo)); 
+// function updateLs(task){
+//      let tasks;
+//      if(localStorage.getItem('tasks')===null)
+//      {
+//         tasks = []
+//      }
+//      else
+//      {
+//         tasks = JSON.parse(localStorage.getItem('tasks'))
+//      }
+//      tasks.push(task);
+//     localStorage.setItem('tasks',JSON.stringify(tasks)); 
 // }
 
