@@ -59,8 +59,9 @@ form{
     margin-left: 20px;
 }
 .completed{
-    color: #f20c0c !important;
+    color: #555252 !important;
     text-decoration: line-through;
+    opacity: 0.4;
     
 }
 small{
