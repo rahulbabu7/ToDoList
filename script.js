@@ -1,64 +1,79 @@
-const form = document.querySelector('form');  //form 
-const input = document.querySelector('input');
-const todoUl = document.querySelector('ul');
-let ls = localStorage.getItem('todo');
-let todo = ls ? JSON.parse(ls) : [];
+const form = document.querySelector("form"); //form
+const input = document.querySelector("input");
+const todoUl = document.querySelector("ul");
+const clearTask = document.querySelector(".clear-task");
+const todoLi = document.querySelectorAll("li");
 //adding event to form
-form.addEventListener('submit', (e)=> {
-    e.preventDefault();
-    addTodo();
-
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  addTodo();
 });
 
-//adding to list
-function addTodo(){
 
-    const  todoText = input.value;
-   
-    //if no text is passed
-    if(!todoText){
-        alert("add any task");  
-        return;
-    }else{
-        const todoElement = document.createElement('li');
-        todoElement.className = 'task';
+//dom load
+document.addEventListener("DOMContentLoaded",load());
 
-        todoElement.addEventListener('click',()=> {
-           todoElement.classList.toggle('completed');
-            // updateLs(todoElement); 
-         todo.push(todoText);
-         localStorage.setItem('todo',JSON.stringify(todo));
-            
-        });
-        todo.push(todoText);
-        localStorage.setItem('todo',JSON.stringify(todo));
-        todoElement.textContent = todoText;
-        todoUl.appendChild(todoElement);
-        input.value = " "; ///after adding the  task clear the input section
+//loading
 
-        //remove right click
-        todoElement.addEventListener('contextmenu',(e)=> {
-        e.preventDefault();
-        todoElement.remove();
-
-    //   updateLs(todoElement);  //update localstorage
-        
-        
-        });
-    }
+function load() {
+  let ls = localStorage.getItem("todo");
+  let todo = ls ? JSON.parse(ls) : [];
+  todo.forEach(i=> {
+    const todoElement = document.createElement("li");
+    todoElement.className = "task";
+     
+    todoElement.textContent = i;
+    todoUl.appendChild(todoElement);
+    
+  });
 }
+//adding to list
+function addTodo() {
+  const todoText = input.value;
 
-// function updateLs(task){
-//      let tasks;
-//      if(localStorage.getItem('tasks')===null)
-//      {
-//         tasks = []
-//      }
-//      else
-//      {
-//         tasks = JSON.parse(localStorage.getItem('tasks'))
-//      }
-//      tasks.push(task);
-//     localStorage.setItem('tasks',JSON.stringify(tasks)); 
-// }
+  //if no text is passed
+  if (!todoText) {
+    alert("add any task");
+    return;
+  } else {
+    const todoElement = document.createElement("li");
+    todoElement.className = "task";
 
+    todoElement.addEventListener("click", () => {
+      todoElement.classList.toggle("completed");
+    });
+
+    
+    todoElement.textContent = todoText;
+    todoUl.appendChild(todoElement);
+    input.value = " "; ///after adding the  task clear the input section
+    updatels(todoText);
+
+    //remove right click
+    todoElement.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      clearTask();
+    });
+  }
+}
+clearTask.addEventListener("click", () => {
+  cleartask();
+});
+
+cleartask = () => {
+  localStorage.clear();
+
+
+  //removing the li 
+  while( todoUl.firstChild ){
+    todoUl.removeChild( todoUl.firstChild );
+  }
+  
+};
+
+function updatels(todoz) {
+  let ls = localStorage.getItem("todo");
+  let todo = ls ? JSON.parse(ls) : [];
+   todo.push(todoz);
+  localStorage.setItem("todo", JSON.stringify(todo));
+}
