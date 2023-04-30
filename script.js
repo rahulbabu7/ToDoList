@@ -52,6 +52,7 @@ function addTodo() {
     //remove right click
     todoElement.addEventListener("contextmenu", (e) => {
       e.preventDefault();
+      todoElement.remove();
       clearTask();
     });
   }
